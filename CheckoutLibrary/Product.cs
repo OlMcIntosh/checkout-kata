@@ -8,7 +8,7 @@
         public Product(string sKU, int quantity)
         {
             SKU = sKU;
-            quantity = quantity;
+            this.quantity = quantity;
         }
 
         internal void IncreaseQuantity()
