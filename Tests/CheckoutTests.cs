@@ -44,5 +44,18 @@ namespace Tests
 
             Assert.That(checkout.GetTotalPrice(), Is.EqualTo(80));
         }
+
+        [Test]
+        public void when_special_price_is_set_for_two_items_and_two_items_scanned_the_total_is_special_price()
+        {
+            var checkout = new Checkout();
+            checkout.SetPrice("B", 30);
+            checkout.SetSpecialPrice("B", 2, 45);
+
+            checkout.Scan("B");
+            checkout.Scan("B");
+
+            Assert.That(checkout.GetTotalPrice(), Is.EqualTo(45));
+        }
     }
 }
