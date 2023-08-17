@@ -3,7 +3,7 @@
     public class Checkout
     {
         private Dictionary<string, int> prices = new Dictionary<string, int>();
-        private Dictionary<string, int> products = new Dictionary<string, int>();
+        private ListOfProducts ProductsInTransaction = new ListOfProducts();
         private ListOfSpecialPrices specialPrices = new ListOfSpecialPrices();
 
         public Checkout()
@@ -14,15 +14,15 @@
         {
             int total = 0;
 
-            foreach (var item in products)
+            foreach (var item in ProductsInTransaction)
             {               
-                if (specialPrices.IsThereASpecialPriceFor(item.Key))
+                if (specialPrices.IsThereASpecialPriceFor(item.SKU))
                 {
-                    var specialPrice = specialPrices.GetPriceForSKU(item.Key);
-                    if (item.Value > specialPrice.quantity)
+                    var specialPrice = specialPrices.GetPriceForSKU(item.SKU);
+                    if (item.quantity > specialPrice.quantity)
                     {  
                         total += specialPrice.price;
-                        total += prices[item.Key];
+                        total += prices[item.SKU];
                     }
                     else
                     { 
@@ -31,7 +31,7 @@
                 }
                 else
                 {
-                    total += prices[item.Key] * item.Value;
+                    total += prices[item.SKU] * item.quantity;
                 }
             }
 
@@ -40,14 +40,7 @@
 
         public void Scan(string SKU)
         {
-            if (products.ContainsKey(SKU))
-            {
-                products[SKU]++;
-            }
-            else
-            {
-                products.Add(SKU, 1);
-            }
+            ProductsInTransaction.Add(SKU);
         }
 
         public void SetPrice(string SKU, int price)
