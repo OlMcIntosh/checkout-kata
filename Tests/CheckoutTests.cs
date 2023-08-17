@@ -1,3 +1,5 @@
+using CheckoutLibrary;
+
 namespace Tests
 {
     public class Tests
@@ -8,9 +10,14 @@ namespace Tests
         }
 
         [Test]
-        public void Test1()
+        public void when_one_item_is_scanned_the_total_price_iquals_price_of_this_item()
         {
-            Assert.Pass();
+            var checkout = new Checkout();
+            checkout.SetPrice("A", 50);
+
+            checkout.Scan("A");
+
+            Assert.That(checkout.GetTotalPrice(), Is.EqualTo(50));
         }
     }
 }
