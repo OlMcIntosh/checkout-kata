@@ -109,5 +109,18 @@ namespace Tests
             ScanProducts(checkout, "CDBA");
             Assert.That(checkout.GetTotalPrice(), Is.EqualTo(115));
         }
+
+        [Test]
+        public void special_prices_use_does_not_depend_on_order()
+        {
+            checkout.SetPrice("A", 50);
+            checkout.SetSpecialPrice("A", 3, 130);
+            checkout.SetPrice("B", 30);
+            checkout.SetSpecialPrice("B", 2, 45);
+            checkout.SetPrice("D", 15);
+
+            ScanProducts(checkout, "DABABA");
+            Assert.That(checkout.GetTotalPrice(), Is.EqualTo(190));
+        }
     }
 }
