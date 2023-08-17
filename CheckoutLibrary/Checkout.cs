@@ -4,7 +4,7 @@
     {
         private Dictionary<string, int> prices = new Dictionary<string, int>();
         private Dictionary<string, int> products = new Dictionary<string, int>();
-        private List<SpecialPrice> specialPrices = new List<SpecialPrice>();
+        private ListOfSpecialPrices specialPrices = new ListOfSpecialPrices();
 
         public Checkout()
         {
@@ -15,10 +15,10 @@
             int total = 0;
 
             foreach (var item in products)
-            {
-                var specialPrice = specialPrices.FirstOrDefault(x => x.sku == item.Key);
-                if (specialPrice != null)
+            {               
+                if (specialPrices.IsThereASpecialPriceFor(item.Key))
                 {
+                    var specialPrice = specialPrices.GetPriceForSKU(item.Key);
                     if (item.Value > specialPrice.quantity)
                     {  
                         total += specialPrice.price;
@@ -57,7 +57,7 @@
 
         public void SetSpecialPrice(string SKU, int quantity, int price)
         {
-            specialPrices.Add(new SpecialPrice(SKU, quantity, price));
+            specialPrices.Add(SKU, quantity, price);
         }
     }
 }
