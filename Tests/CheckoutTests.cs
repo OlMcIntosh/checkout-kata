@@ -95,5 +95,19 @@ namespace Tests
 
             Assert.That(checkout.GetTotalPrice(), Is.EqualTo(90));
         }
+
+        [Test]
+        public void when_special_prices_set_but_not_used()
+        {
+            checkout.SetPrice("A", 50);
+            checkout.SetSpecialPrice("A", 3, 130);
+            checkout.SetPrice("B", 30);
+            checkout.SetSpecialPrice("B", 2, 45);
+            checkout.SetPrice("C", 20);
+            checkout.SetPrice("D", 15);
+
+            ScanProducts(checkout, "CDBA");
+            Assert.That(checkout.GetTotalPrice(), Is.EqualTo(115));
+        }
     }
 }

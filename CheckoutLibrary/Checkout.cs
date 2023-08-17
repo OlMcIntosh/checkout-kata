@@ -19,14 +19,14 @@
                 if (specialPrices.IsThereASpecialPriceFor(item.SKU))
                 {
                     var specialPrice = specialPrices.GetPriceForSKU(item.SKU);
-                    if (item.quantity > specialPrice.quantity)
+                    if (item.quantity >= specialPrice.quantity)
                     {  
                         total += specialPrice.price*(item.quantity / specialPrice.quantity);
                         total += prices[item.SKU]*(item.quantity%specialPrice.quantity);
                     }
                     else
                     { 
-                        total += specialPrice.price; 
+                        total += prices[item.SKU]; 
                     }
                 }
                 else
