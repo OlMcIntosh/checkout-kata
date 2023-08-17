@@ -15,7 +15,7 @@ namespace Tests
             var checkout = new Checkout();
             checkout.SetPrice("A", 50);
 
-            checkout.Scan("A");
+            ScanProducts(checkout, "A");
 
             Assert.That(checkout.GetTotalPrice(), Is.EqualTo(50));
         }
@@ -26,8 +26,7 @@ namespace Tests
             var checkout = new Checkout();
             checkout.SetPrice("A", 50);
 
-            checkout.Scan("A");
-            checkout.Scan("A");
+            ScanProducts(checkout, "AA");
 
             Assert.That(checkout.GetTotalPrice(), Is.EqualTo(100));
         }
@@ -39,8 +38,7 @@ namespace Tests
             checkout.SetPrice("A", 50);
             checkout.SetPrice("B", 30);
 
-            checkout.Scan("A");
-            checkout.Scan("B");
+            ScanProducts(checkout, "AB");
 
             Assert.That(checkout.GetTotalPrice(), Is.EqualTo(80));
         }
@@ -52,8 +50,7 @@ namespace Tests
             checkout.SetPrice("B", 30);
             checkout.SetSpecialPrice("B", 2, 45);
 
-            checkout.Scan("B");
-            checkout.Scan("B");
+            ScanProducts(checkout, "BB");
 
             Assert.That(checkout.GetTotalPrice(), Is.EqualTo(45));
         }
@@ -65,11 +62,17 @@ namespace Tests
             checkout.SetPrice("B", 30);
             checkout.SetSpecialPrice("B", 2, 45);
 
-            checkout.Scan("B");
-            checkout.Scan("B");
-            checkout.Scan("B");
+            ScanProducts(checkout, "BBB");
 
             Assert.That(checkout.GetTotalPrice(), Is.EqualTo(75));
+        }
+
+        private static void ScanProducts(Checkout checkout, string productSKUs)
+        {
+            foreach (char code in productSKUs) 
+            {
+                checkout.Scan(code.ToString());
+            }
         }
     }
 }
