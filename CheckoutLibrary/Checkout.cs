@@ -19,7 +19,15 @@
                 var specialPrice = specialPrices.FirstOrDefault(x => x.sku == item.Key);
                 if (specialPrice != null)
                 {
-                    total += specialPrice.price;
+                    if (item.Value > specialPrice.quantity)
+                    {  
+                        total += specialPrice.price;
+                        total += prices[item.Key];
+                    }
+                    else
+                    { 
+                        total += specialPrice.price; 
+                    }
                 }
                 else
                 {
