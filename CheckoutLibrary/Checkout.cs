@@ -22,7 +22,7 @@
                     if (item.quantity > specialPrice.quantity)
                     {  
                         total += specialPrice.price;
-                        total += prices[item.SKU];
+                        total += prices[item.SKU]*(item.quantity - specialPrice.quantity);
                     }
                     else
                     { 
