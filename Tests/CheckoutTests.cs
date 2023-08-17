@@ -31,5 +31,18 @@ namespace Tests
 
             Assert.That(checkout.GetTotalPrice(), Is.EqualTo(100));
         }
+
+        [Test]
+        public void when_two_different_items_scanned_the_total_price_is_the_sum_of_their_prices()
+        {
+            var checkout = new Checkout();
+            checkout.SetPrice("A", 50);
+            checkout.SetPrice("B", 30);
+
+            checkout.Scan("A");
+            checkout.Scan("B");
+
+            Assert.That(checkout.GetTotalPrice(), Is.EqualTo(80));
+        }
     }
 }
